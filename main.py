@@ -10,17 +10,19 @@ from devices.speaker import Speaker
 class Controller:
     def __init__(self):
         self.distance = DistanceMeter()
-        self.distances = np.zeros(30)
+        self.distances = np.zeros(10)
 
         self.array_filled = False
         self.player = Speaker()
         self.time_last_played = 0
+        print('main initialized')
 
     def loop(self):
         distance_index = 0
         while True:
             # Measure distance
             distance = self.distance.measure_distance()
+            print('distance', distance)
 
             # Fill distances array
             self.distances[distance_index] = distance
@@ -42,8 +44,8 @@ class Controller:
                 continue
 
             # Play sound
-            self.player.play()
-
+            self.player.play_random(settings.SOUNDS_FOLDER)
+            self.time_last_played = time.time()
 
 if __name__ == '__main__':
     controller = Controller()
